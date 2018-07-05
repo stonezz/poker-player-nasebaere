@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Player {
 
-    static final String VERSION = "v1.17";
+    static final String VERSION = "v1.18";
 
     public static int betRequest(JsonElement request) {
 
@@ -23,7 +23,6 @@ public class Player {
         JsonArray players = jobject.getAsJsonArray("players");
 
         int currentBuyIn = jobject.get("current_buy_in").getAsInt();
-        int minRaise = jobject.get("minimum_raise").getAsInt();
 
         int betAll = 0;
 
@@ -38,7 +37,7 @@ public class Player {
         //   }
         //}
 
-        return currentBuyIn - bet + minRaise;
+        return currentBuyIn - bet + 50;
     }
 
     public static void showdown(JsonElement game) {
