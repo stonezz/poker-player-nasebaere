@@ -13,14 +13,20 @@ public class Player {
     public static int betRequest(JsonElement request) {
 
        JsonObject jobject = request.getAsJsonObject();
-      // JsonArray jarray = jobject.getAsJsonArray("players");
+       JsonArray players = jobject.getAsJsonArray("players");
 
-        //for(int i=0; i<jarray.size(); i++) {
-        //    JsonObject item = jarray.get(i).getAsJsonObject();
+       int betAll =0;
 
-        //}
+       for(int i=0; i<players.size(); i++) {
+           JsonObject player = players.get(i).getAsJsonObject();
 
-        return 1000;
+          int bet=  player.get("bet").getAsInt();
+          if(bet >= betAll) {
+              betAll = bet;
+          }
+       }
+
+        return betAll + 1;
     }
 
     public static void showdown(JsonElement game) {
