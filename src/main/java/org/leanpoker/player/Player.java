@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Player {
 
-    static final String VERSION = "v1.22";
+    static final String VERSION = "v1.23";
 
     public static int betRequest(JsonElement request) {
 
@@ -66,7 +66,6 @@ public class Player {
             }
         }
 
-
         int  raise = 0;
         if(kartenAufTisch.size() == 0) {
           raise  += hasMindPairs(kartenMap) ? 10 : 0;
@@ -74,6 +73,13 @@ public class Player {
         else if(kartenAufTisch.size() == 3) {
              raise += hasThtree(kartenMap) ? 10 : 0;
              raise  += hasMindPairs(kartenMap) ? 10 : 0;
+        }
+        else if(kartenAufTisch.size() == 4) {
+            if(!hasThtree(kartenMap) &&  !hasMindPairs(kartenMap)) {
+                if(highestCard.wert < 14) {
+                    return 0;
+                }
+            }
         }
 
         int bett = currentBuyIn - bet + raise;
