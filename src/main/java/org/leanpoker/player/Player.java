@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Player {
 
-    static final String VERSION = "v1.24";
+    static final String VERSION = "v1.25";
 
     public static int betRequest(JsonElement request) {
 
@@ -70,6 +70,11 @@ public class Player {
 
         int  raise = 0;
         if(kartenAufTisch.size() == 0) {
+
+            if(!hasMindPairs(kartenMap) || highestCard.wert < 13) {
+                return 0;
+            }
+
           raise  += hasMindPairs(kartenMap) ? 10 : 0;
         }
         else if(kartenAufTisch.size() == 3) {
