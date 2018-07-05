@@ -18,10 +18,12 @@ public class Player {
     }
 
     private static int evaluateBet(JsonElement request) {
+
+        System.out.println("Test");
+
         JsonObject jobject = request.getAsJsonObject();
 
         JsonArray players = jobject.getAsJsonArray("players");
-
         int currentBuyIn = jobject.get("current_buy_in").getAsInt();
 
         JsonObject player = players.get(5).getAsJsonObject();
