@@ -9,9 +9,12 @@ public class Player {
     static final String VERSION = "stonezz";
 
     public static int betRequest(JsonElement request) {
-        return 10;
+    	
+    	
+        return 200;
     }
 
     public static void showdown(JsonElement game) {
+    	
     }
 }
