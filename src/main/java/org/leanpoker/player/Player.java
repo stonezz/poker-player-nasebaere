@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Player {
 
-    static final String VERSION = "v1.25";
+    static final String VERSION = "v1.26";
 
     public static int betRequest(JsonElement request) {
 
@@ -19,7 +19,7 @@ public class Player {
 
     private static int evaluateBet(JsonElement request) {
 
-        System.out.println("Test");
+        System.err.println("Test");
 
         JsonObject jobject = request.getAsJsonObject();
 
