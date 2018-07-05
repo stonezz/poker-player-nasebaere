@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Player {
 
-    static final String VERSION = "stonezz v1.15";
+    static final String VERSION = "v1.17";
 
     public static int betRequest(JsonElement request) {
 
@@ -23,20 +23,26 @@ public class Player {
         JsonArray players = jobject.getAsJsonArray("players");
 
         int currentBuyIn = jobject.get("current_buy_in").getAsInt();
+        int minRaise = jobject.get("minimum_raise").getAsInt();
 
         int betAll = 0;
 
-        for(int i=0; i<players.size(); i++) {
-           JsonObject player = players.get(i).getAsJsonObject();
-           int bet=  player.get("bet").getAsInt();
-           if(bet >= betAll) {
-               betAll = bet;
-           }
-        }
+        JsonObject player = players.get(5).getAsJsonObject();
+        int bet=  player.get("bet").getAsInt();
 
-        return betAll - currentBuyIn + 50;
+       // for(int i=0; i<players.size(); i++) {
+       //    JsonObject player = players.get(i).getAsJsonObject();
+       //    int bet=  player.get("bet").getAsInt();
+        //   if(bet >= betAll) {
+        //       betAll = bet;
+        //   }
+        //}
+
+        return currentBuyIn - bet + minRaise;
     }
 
     public static void showdown(JsonElement game) {
+
+
     }
 }
