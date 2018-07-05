@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Player {
 
-    static final String VERSION = "v1.23";
+    static final String VERSION = "v1.24";
 
     public static int betRequest(JsonElement request) {
 
@@ -82,6 +82,10 @@ public class Player {
                     return 0;
                 }
             }
+        }
+
+        if(currentBuyIn >= 300) {
+            return 0;
         }
 
         int bett = currentBuyIn - bet + raise;
