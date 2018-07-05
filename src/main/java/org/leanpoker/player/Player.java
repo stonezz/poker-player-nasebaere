@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Player {
 
-    static final String VERSION = "v1.21";
+    static final String VERSION = "v1.22";
 
     public static int betRequest(JsonElement request) {
 
@@ -25,11 +25,10 @@ public class Player {
         int currentBuyIn = jobject.get("current_buy_in").getAsInt();
 
         JsonObject player = players.get(5).getAsJsonObject();
-        int bet=  player.get("bet").getAsInt();
+        int bet =  player.get("bet").getAsInt();
 
         JsonArray cards = player.get("hole_cards").getAsJsonArray();
         List<Card> kartenInHand =  getKarten(cards);
-
 
         cards = jobject.get("community_cards").getAsJsonArray();
         List<Card> kartenAufTisch =  getKarten(cards);
@@ -37,10 +36,27 @@ public class Player {
         Map<Integer, Integer> kartenMap = new TreeMap<>(Collections.<Integer>reverseOrder());
 
         List<Card> alleKarten = new ArrayList<>();
-        alleKarten.addAll(alleKarten);
+        alleKarten.addAll(kartenInHand);
         alleKarten.addAll(kartenAufTisch);
 
-        for(Card karte : alleKarten) {
+        Card highestCard = null;
+        for(Card karte : kartenInHand) {
+            Integer anzahlKarten = kartenMap.get(new Integer(karte.wert));
+            if(anzahlKarten == null) {
+                kartenMap.put(new Integer(karte.wert), new Integer(1));
+            }
+            else {
+                kartenMap.put(new Integer(karte.wert), ++anzahlKarten);
+            }
+
+            if(highestCard != null) {
+                highestCard = highestCard.wert < karte.wert ? karte : highestCard;
+            }{
+              highestCard = karte;
+            }
+        }
+
+        for(Card karte : kartenAufTisch) {
             Integer anzahlKarten = kartenMap.get(new Integer(karte.wert));
             if(anzahlKarten == null) {
                 kartenMap.put(new Integer(karte.wert), new Integer(1));
@@ -50,29 +66,32 @@ public class Player {
             }
         }
 
-        if(alleKarten.size() > 0) {
-            Card highestCard = alleKarten.get(0);
-        }
 
-
-     boolean  raise = false;
+        int  raise = 0;
         if(kartenAufTisch.size() == 0) {
-          raise  = hasMindPairs(kartenMap);
+          raise  += hasMindPairs(kartenMap) ? 10 : 0;
+        }
+        else if(kartenAufTisch.size() == 3) {
+             raise += hasThtree(kartenMap) ? 10 : 0;
+             raise  += hasMindPairs(kartenMap) ? 10 : 0;
         }
 
-        int bett = currentBuyIn - bet;
-if(raise) {
-    bett += 10;
-}
-
-
-
+        int bett = currentBuyIn - bet + raise;
         return bett;
     }
 
     private static boolean hasMindPairs(Map<Integer, Integer> kartenMap) {
         for(Integer wert :  kartenMap.values()) {
             if(wert.intValue() > 1)
+                return true;
+        }
+
+        return false;
+    }
+
+    private static boolean hasThtree(Map<Integer, Integer> kartenMap) {
+        for(Integer wert :  kartenMap.values()) {
+            if(wert.intValue() > 2)
                 return true;
         }
 
