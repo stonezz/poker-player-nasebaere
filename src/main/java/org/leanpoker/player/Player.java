@@ -71,7 +71,7 @@ public class Player {
         int  raise = 0;
         if(kartenAufTisch.size() == 0) {
 
-            if(!hasMindPairs(kartenMap) || highestCard.wert < 13) {
+            if(!hasMindPairs(kartenMap) && highestCard.wert < 13) {
                 return 0;
             }
 
